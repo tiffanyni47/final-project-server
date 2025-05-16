@@ -5,8 +5,17 @@ It registers models, sets up associations between tables, and generates barrel f
 ==================================================*/
 const Student  = require('./Student');  // Import Student model
 const Campus  = require('./Campus');  // Import Campus model
+const { FOREIGNKEYS } = require('sequelize');
 
-Student.belongsTo(Campus);  // Student belongs to only one Campus 
+Student.belongsTo(Campus,
+  {
+    foreignKey:{
+      name: 'campusId',
+      allowNull: true
+    },
+    onDelete: 'SET NULL'
+  });  // Student belongs to only one Campus and allow the campusId to be null
+
 Campus.hasMany(Student);  // Campus can have many Student
 
 // Export models and associations
